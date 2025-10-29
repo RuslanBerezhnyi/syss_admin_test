@@ -1,0 +1,12 @@
+<?php
+if ($_SERVER['REQUEST_URI'] === '/healthz') {
+    header('Content-Type: application/json');
+    echo json_encode([
+        'status' => 'ok',
+        'service' => 'nginx',
+        'env' => getenv('APP_ENV') ?: 'dev'
+    ]);
+    exit;
+}
+echo "Hello world";
+?>

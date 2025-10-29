@@ -1,0 +1,30 @@
+server {
+    listen 80;
+    server_name localhost;
+
+    root /var/www/html;
+    index index.php index.html;
+
+    # Основний роут
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # PHP-FPM обробка
+    location ~ \.php$ {
+        include fastcgi_params;
+        fastcgi_pass sysadmin-infra_php:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+    # /healthz роут
+    location /healthz {
+        include fastcgi_params;
+        fastcgi_pass sysadmin-infra_php:9000;
+        fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+    }
+
+    error_log /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
+}

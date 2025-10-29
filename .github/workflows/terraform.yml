@@ -1,0 +1,38 @@
+name: Terraform
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.7.9
+
+      - name: Terraform fmt check
+        run: terraform fmt -check
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Terraform plan
+        run: terraform plan -out=tfplan
+
+      - name: Upload tfplan artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: tfplan
+          path: tfplan

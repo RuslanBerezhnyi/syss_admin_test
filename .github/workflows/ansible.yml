@@ -47,3 +47,4 @@ jobs:
           pip install ansible molecule docker
           cd ansible/roles/web
           molecule test -s default
+          

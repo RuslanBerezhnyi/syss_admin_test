@@ -14,25 +14,36 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-            terraform_version: latest
+          terraform_version: "1.6.0"
 
       - name: Terraform fmt check
         run: terraform fmt -check -chdir=terraform
 
       - name: Terraform init
         run: terraform init -chdir=terraform
+        env:
+          DOCKER_HOST: "unix:///var/run/docker.sock"
 
       - name: Terraform validate
         run: terraform validate -chdir=terraform
+        env:
+          DOCKER_HOST: "unix:///var/run/docker.sock"
 
       - name: Terraform plan
-        run: terraform plan -out=tfplan -chdir=terraform
+        run: terraform plan -input=false -out=tfplan -chdir=terraform
+        env:
+          DOCKER_HOST: "unix:///var/run/docker.sock"
+          TF_VAR_host_port: "8080"
+          TF_VAR_app_env: "ci"
 
       - name: Upload tfplan artifact
         uses: actions/upload-artifact@v4
         with:
-            name: tfplan
-            path: terraform/tfplan
+          name: tfplan
+          path: terraform/tfplan

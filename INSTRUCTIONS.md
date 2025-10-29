@@ -1,38 +1,37 @@
-# Project Setup and Testing Instructions
+## Project Setup and Testing Instructions
 
 ## Initial Setup
 
 1. **Environment Setup**
    ```bash
-   # Install required tools
-   sudo apt-get update
-   sudo apt-get install -y docker.io ansible terraform
+    # Install required tools
+    sudo apt-get update
+    sudo apt-get install -y docker.io ansible terraform
 
-   # Add your user to docker group (optional)
-   sudo usermod -aG docker $USER
-   ```
+    # Add your user to docker group (optional)
+    sudo usermod -aG docker $USER
 
 2. **Repository Setup**
-   ```bash
-   git clone https://github.com/RuslanBerezhnyi/syss_admin_test.git
-   cd syss_admin_test
-   ```
+    git clone https://github.com/RuslanBerezhnyi/syss_admin_test.git
+    cd syss_admin_test
 
 ## Deployment Steps
 
-1. **Terraform Deployment**
-   ```bash
-   cd terraform
-   terraform init
-   terraform plan
-   terraform apply
-   ```
+    1. Move to terraform directory
+    cd terraform
+
+    # Initialize Terraform (downloads providers)
+    terraform init
+
+    # Plan deployment (safe, without interactive prompts)
+    terraform plan -input=false -out=tfplan
+
+    # Apply the planned changes
+    terraform apply tfplan
 
 2. **Ansible Configuration**
-   ```bash
-   cd ../ansible
-   ansible-playbook -i localhost, --connection=local playbook.yml
-   ```
+    cd ../ansible
+    ansible-playbook -i localhost, --connection=local playbook.yml
 
 ## Testing
 

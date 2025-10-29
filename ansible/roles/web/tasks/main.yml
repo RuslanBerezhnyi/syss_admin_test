@@ -17,8 +17,11 @@
   notify: Restart nginx
 
 - name: Copy index.php
-  template:
+  ansible.builtin.template:
     src: index.php.j2
     dest: "/var/www/html/index.php"
+    owner: www-data
+    group: www-data
+    mode: '0644'
   notify: Restart php-fpm
   

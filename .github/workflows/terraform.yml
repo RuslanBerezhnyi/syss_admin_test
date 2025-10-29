@@ -17,7 +17,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.7.9
+          terraform_version: 3.1.2
 
       - name: Terraform fmt check
         run: terraform fmt -check
@@ -36,4 +36,4 @@ jobs:
         with:
           name: tfplan
           path: tfplan
-          
+

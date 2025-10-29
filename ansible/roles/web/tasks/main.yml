@@ -24,4 +24,3 @@
     group: www-data
     mode: '0644'
   notify: Restart php-fpm
-  
